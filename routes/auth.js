@@ -3,11 +3,13 @@ const firebase = require('../firebase')
 const firestore = require('../firebase/firestore')
 
 const isEmpty = strValue => {
+  if (!strValue) return true
   return strValue.trim() === '' ? true : false
 }
 
 const isEmail = email => {
-  const regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;  
+  if (!email) return false;
+  const regEx = /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
   return email.match(regEx) ? true : false;
 }
 
@@ -28,7 +30,7 @@ router.post('/signup', (req, res, next) => {
   if (isEmpty(firstName)) errors.firstName = 'Must not be empty.'
   if (isEmpty(lastName)) errors.lastName = 'Must not be empty.'
 
-  if(Object.keys(errors).length > 0) {
+  if (Object.keys(errors).length > 0) {
     return res.status(400).json(errors)
   }
   // validation--
@@ -89,9 +91,9 @@ router.post('/login', (req, res, next) => {
   if (isEmpty(email)) errors.email = 'Must not be empty.'
   else if (!isEmail(email)) errors.email = 'Must be a valid email address.'
 
-  if (isEmpty(password)) errors.password = 'Must not be empty.'  
+  if (isEmpty(password)) errors.password = 'Must not be empty.'
 
-  if(Object.keys(errors).length > 0) {
+  if (Object.keys(errors).length > 0) {
     return res.status(400).json(errors)
   }
   // validation--
@@ -115,7 +117,7 @@ router.post('/login', (req, res, next) => {
           errorCode: err.code,
           errorMessage: err.message
         })
-      }      
+      }
     });
 });
 
