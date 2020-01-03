@@ -8,20 +8,17 @@ router.get('/', (req, res, next) => {
       sections.push(doc.data())
     });
     res.status(200).json(sections);
-  }).catch(err => {
-    res.status(500).json(err)
+  }).catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      errorCode: error.code,
+      errorMessage: error.message
+    })
   })
 });
 
+// admin api
 router.post('/', (req, res, next) => {
-
-  // admin api
-  if(req.user.email !== 'viveloper@chova.com'){
-    return res.status(401).json({
-      message: 'You need administrator privileges.'
-    })
-  }
-
   const section = {
     index: req.body.index,
     name: req.body.name,

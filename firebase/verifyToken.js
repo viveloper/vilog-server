@@ -11,13 +11,14 @@ const verifyToken = (req, res, next) => {
 
   // idToken comes from the client app
   admin.auth().verifyIdToken(token)
-    .then(function (decodedToken) {
+    .then(decodedToken => {
       req.user = {
         uid: decodedToken.uid,
         email: decodedToken.email
       }
       return next();
-    }).catch(function (error) {
+    })
+    .catch(function (error) {
       // Handle error
       error.statusCode = 401;
       return next(error);
