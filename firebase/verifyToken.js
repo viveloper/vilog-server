@@ -1,4 +1,4 @@
-const admin = require('../firebase/admin')
+const admin = require('./admin')
 
 const verifyToken = (req, res, next) => {
   const token = req.token;
