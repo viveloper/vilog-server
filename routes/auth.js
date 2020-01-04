@@ -41,7 +41,7 @@ router.post('/signup', (req, res, next) => {
   firestore.collection('users').doc(nickname).get()
     .then(doc => {
       if (doc.exists) {
-        return res.status(400).json({ nickname: 'The nickname is already in use by another account.' })
+        return res.status(400).json({ nickname: 'The nickname is already in use' })
       }
       else {
         return firebase.auth().createUserWithEmailAndPassword(email, password)
@@ -70,13 +70,17 @@ router.post('/signup', (req, res, next) => {
       console.error(err);
       if (err.code === 'auth/email-already-in-use') {
         return res.status(400).json({
-          email: 'The email address is already in use by another account.'
+          email: 'The email address is already in use'
+        })
+      }
+      else if(err.code === 'auth/weak-password') {
+        return res.status(400).json({
+          password: 'Password should be at least 6 characters'
         })
       }
       else {
         return res.status(500).json({
-          errorCode: err.code,
-          errorMessage: err.message
+          general: err.message
         })
       }
     });
@@ -109,13 +113,18 @@ router.post('/login', (req, res, next) => {
       console.error(err);
       if (err.code === 'auth/wrong-password') {
         return res.status(401).json({
-          password: 'The password is invalid or the user does not have a password.'
+          password: 'The password is invalid.'
+        })
+      }
+      else if(err.code === 'auth/user-not-found') {
+        return res.status(401).json({
+          email: 'This email is not registered.'
         })
       }
       else {
         return res.status(500).json({
-          errorCode: err.code,
-          errorMessage: err.message
+          code: err.code,
+          general: err.message
         })
       }
     });

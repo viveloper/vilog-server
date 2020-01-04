@@ -6,6 +6,7 @@ const verifyToken = (req, res, next) => {
     const error = new Error();
     error.statusCode = 401;
     error.message = 'missing token';
+    console.error(error);
     return next(error);
   }
 
@@ -21,6 +22,7 @@ const verifyToken = (req, res, next) => {
     .catch(function (error) {
       // Handle error
       error.statusCode = 401;
+      console.error(error);
       return next(error);
     });
 }

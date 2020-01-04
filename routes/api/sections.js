@@ -7,12 +7,12 @@ router.get('/', (req, res, next) => {
     snapshot.forEach(doc => {
       sections.push(doc.data())
     });
-    res.status(200).json(sections);
+    res.status(200).json({ sections });
   }).catch(error => {
     console.error(error);
     return res.status(500).json({
-      errorCode: error.code,
-      errorMessage: error.message
+      code: error.code,
+      message: error.message
     })
   })
 });
@@ -29,8 +29,12 @@ router.post('/', (req, res, next) => {
     res.status(201).json({
       status: 'created'
     })
-  }).catch(err => {
-    res.status(500).json(err)
+  }).catch(error => {
+    console.error(error);
+    res.status(500).json({
+      code: error.code,
+      message: error.message
+    })
   })
 });
 
