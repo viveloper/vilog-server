@@ -7,7 +7,23 @@ router.get('/', (req, res, next) => {
     snapshot.forEach(doc => {
       sections.push(doc.data())
     });
-    res.status(200).json({ sections });
+    return res.status(200).json({ sections });
+  }).catch(error => {
+    console.error(error);
+    return res.status(500).json({
+      code: error.code,
+      message: error.message
+    })
+  })
+});
+
+router.get('/:name', (req, res, next) => {
+  firestore.collection('sections').where('name', '==', req.params.name).get().then(snapshot => {
+    const sections = [];
+    snapshot.forEach(doc => {
+      sections.push(doc.data())
+    });
+    return res.status(200).json({ section: sections[0] });
   }).catch(error => {
     console.error(error);
     return res.status(500).json({
