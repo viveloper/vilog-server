@@ -15,10 +15,12 @@ app.use('/api', verifyToken);
 // router
 const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
-const sectionRouter = require('./routes/api/sections');
+const sectionsRouter = require('./routes/api/sections');
+const postsRouter = require('./routes/api/posts');
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
-app.use('/api/sections', sectionRouter);
+app.use('/api/sections', sectionsRouter);
+app.use('/api/posts', postsRouter);
 app.use(function(err, req, res, next) {
   res.status(err.statusCode).json(err);
 });
