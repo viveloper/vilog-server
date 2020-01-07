@@ -8,8 +8,6 @@ This section has moved here: https://firebase.google.com/docs/web/setup
 
 ### Firebase Admin SDK 사용을 위한 비공개 키 파일 설정
 
-Firebase Console에서 비공개 키 파일 생성
-
-환경변수 GOOGLE_APPLICATION_CREDENTIALS에 비공개 키 파일 경로 설정
+/firebase/serviceAccountFile.json 파일 추가 (Firebase Console에서 비공개 키 파일 생성)
 
 This section has moved here: https://firebase.google.com/docs/admin/setup/

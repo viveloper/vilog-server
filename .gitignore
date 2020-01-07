@@ -7,6 +7,7 @@
 
 # firebase configuration
 /firebase/config.js
+/firebase/serviceAccountFile.json
 
 # testing
 /coverage
