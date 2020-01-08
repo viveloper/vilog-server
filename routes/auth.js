@@ -37,10 +37,11 @@ router.post('/signup', (req, res, next) => {
 
   let token = null;
   let userId = null;
+  let user = null;
 
-  firestore.collection('users').doc(nickname).get()
+  firestore.collection('users').where('nickname', '==', nickname).get()
     .then(doc => {
-      if (doc.exists) {
+      if (!doc.empty) {
         return res.status(400).json({ nickname: 'The nickname is already in use' })
       }
       else {
@@ -53,18 +54,18 @@ router.post('/signup', (req, res, next) => {
     })
     .then(idToken => {
       token = idToken;
-      return firestore.collection('users').doc(nickname).set({
-        userId,
+      user = {
         firstName,
         lastName,
         email,
         nickname,
         isAdmin: false,
         createdAt: new Date().toISOString()
-      })
+      }
+      return firestore.collection('users').doc(userId).set(user);
     })
     .then(() => {
-      return res.status(201).json({ token })
+      return res.status(201).json({ user, token })
     })
     .catch(function (err) {
       console.error(err);
@@ -102,12 +103,21 @@ router.post('/login', (req, res, next) => {
   }
   // validation--
 
+  let userId = null;
+  let token = null;
+
   firebase.auth().signInWithEmailAndPassword(email, password)
     .then(data => {
-      return data.user.getIdToken()
+      userId = data.user.uid;
+      return data.user.getIdToken();
     })
-    .then(token => {
-      return res.json({ token })
+    .then(idToken => {
+      token = idToken
+      return firestore.collection('users').doc(userId).get()
+    })
+    .then(doc => {
+      const user = doc.data()
+      return res.json({ user, token })
     })
     .catch(function (err) {
       console.error(err);
