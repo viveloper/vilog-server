@@ -17,10 +17,12 @@ const indexRouter = require('./routes/index');
 const authRouter = require('./routes/auth');
 const sectionsRouter = require('./routes/api/sections');
 const postsRouter = require('./routes/api/posts');
+const uploadRouter = require('./routes/api/upload');
 app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/api/sections', sectionsRouter);
 app.use('/api/posts', postsRouter);
+app.use('/api/upload', uploadRouter);
 app.use(function(err, req, res, next) {
   res.status(err.statusCode).json(err);
 });
