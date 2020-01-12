@@ -1,3 +1,8 @@
+# Deprecated
+## Use vilog-back
+
+---
+
 ## Firebase Configuration
 
 ### Firebase SDK 사용 설정
